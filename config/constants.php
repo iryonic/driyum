@@ -3,7 +3,16 @@
 session_start();
 define('SESSION_TIMEOUT', 3600); // 1 hour
 
+
+// local
 // Site constants
+// define('SITE_NAME', 'Driyum');
+// define('SITE_URL', 'http://localhost/driyum');
+// define('ADMIN_URL', SITE_URL . '/admin');
+
+  
+// production
+ 
 define('SITE_NAME', 'Driyum');
 define('SITE_URL', 'http://localhost/driyum');
 define('ADMIN_URL', SITE_URL . '/admin');
