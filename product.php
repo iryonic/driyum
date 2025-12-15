@@ -47,10 +47,10 @@ require_once __DIR__ . '/includes/header.php';
         <div>
             <!-- Main Image -->
             <div class="bg-white rounded-xl shadow-lg p-4 mb-4">
-                <img src="<?php echo $product['image_main'] ?: SITE_URL . '/assets/images/placeholder.jpg'; ?>" 
+                <img src="<?php echo htmlspecialchars(get_image_src($product['image_main'])); ?>" 
                      alt="<?php echo htmlspecialchars($product['name']); ?>"
                      id="mainImage"
-                     class="w-full h-96 object-contain rounded-lg">
+                     class="w-full h-64 md:h-96 object-contain rounded-lg">
             </div>
             
             <!-- Thumbnail Images -->
@@ -59,15 +59,15 @@ require_once __DIR__ . '/includes/header.php';
             if (!empty($images)): 
             ?>
                 <div class="flex space-x-2 overflow-x-auto py-2">
-                    <button onclick="changeImage('<?php echo $product['image_main']; ?>')" 
+                    <button onclick="changeImage(<?php echo json_encode(get_image_src($product['image_main'])); ?>)" 
                             class="flex-shrink-0 border-2 border-amber-500 rounded-lg overflow-hidden">
-                        <img src="<?php echo $product['image_main']; ?>" 
+                        <img src="<?php echo htmlspecialchars(get_image_src($product['image_main'])); ?>" 
                              alt="Main" class="w-20 h-20 object-cover">
                     </button>
                     <?php foreach ($images as $image): ?>
-                        <button onclick="changeImage('<?php echo $image; ?>')" 
+                        <button onclick="changeImage(<?php echo json_encode(get_image_src($image)); ?>)" 
                                 class="flex-shrink-0 border border-gray-300 rounded-lg overflow-hidden hover:border-amber-500">
-                            <img src="<?php echo $image; ?>" 
+                            <img src="<?php echo htmlspecialchars(get_image_src($image)); ?>" 
                                  alt="Product image" class="w-20 h-20 object-cover">
                         </button>
                     <?php endforeach; ?>

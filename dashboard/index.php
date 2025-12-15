@@ -114,7 +114,7 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
                 
                 <?php if ($recent_orders): ?>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto table-responsive">
                         <table class="w-full">
                             <thead class="bg-gray-50">
                                 <tr>

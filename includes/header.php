@@ -63,11 +63,22 @@ require_once __DIR__ . '/csrf.php';
     <!-- Top Bar -->
     <div class="bg-amber-800 text-white py-2 px-4">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="text-sm">
+            <!-- Desktop contact info -->
+            <div class="text-sm hidden sm:block">
                 <i class="fas fa-phone mr-2"></i> <?php echo get_setting('store_phone'); ?>
                 <span class="mx-2">|</span>
                 <i class="fas fa-envelope mr-2"></i> <?php echo get_setting('store_email'); ?>
             </div>
+            <!-- Mobile compact icons -->
+            <div class="text-sm sm:hidden flex items-center space-x-4">
+                <a href="tel:<?php echo get_setting('store_phone'); ?>" class="hover:text-amber-200">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="mailto:<?php echo get_setting('store_email'); ?>" class="hover:text-amber-200">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+
             <div class="text-sm">
                 <a href="<?php echo SITE_URL; ?>/contact.php" class="hover:text-amber-200 mr-4">
                     <i class="fas fa-headset mr-1"></i> Support
@@ -83,6 +94,11 @@ require_once __DIR__ . '/csrf.php';
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
+                <!-- Mobile Hamburger (small screens) -->
+                <button class="md:hidden mr-3 text-gray-700 focus:outline-none" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="<?php echo SITE_URL; ?>" class="flex items-center">
@@ -227,6 +243,62 @@ require_once __DIR__ . '/csrf.php';
                 </div>
             </div>
         </nav>
+
+        <!-- Mobile Menu (hidden by default) -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+            <div class="px-4 py-4">
+                <!-- Mobile Search -->
+                <form action="<?php echo SITE_URL; ?>/shop.php" method="GET" class="relative mb-4">
+                    <input type="text" name="search" placeholder="Search for snacks, dry fruits..." 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent">
+                    <button type="submit" class="absolute right-3 top-2.5 text-gray-400 hover:text-amber-600">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+                <div class="space-y-2">
+                    <a href="<?php echo SITE_URL; ?>" class="block px-3 py-2 rounded hover:bg-gray-50">Home</a>
+                    <a href="<?php echo SITE_URL; ?>/shop.php" class="block px-3 py-2 rounded hover:bg-gray-50">Shop</a>
+                    <?php $mobile_cats = get_categories(); ?>
+                    <?php if ($mobile_cats): ?>
+                        <div class="pt-2 border-t">
+                            <div class="text-sm font-medium text-gray-600 px-3 py-2">Categories</div>
+                            <?php foreach ($mobile_cats as $mc): ?>
+                                <a href="<?php echo SITE_URL; ?>/shop.php?category=<?php echo $mc['slug']; ?>" class="block px-3 py-2 hover:bg-gray-50"><?php echo $mc['name']; ?></a>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                    <a href="<?php echo SITE_URL; ?>/about.php" class="block px-3 py-2 rounded hover:bg-gray-50">About</a>
+                    <a href="<?php echo SITE_URL; ?>/contact.php" class="block px-3 py-2 rounded hover:bg-gray-50">Contact</a>
+
+                    <div class="pt-2 border-t">
+                        <?php if (is_logged_in()): ?>
+                            <a href="<?php echo SITE_URL; ?>/dashboard/" class="block px-3 py-2 hover:bg-gray-50">Dashboard</a>
+                            <a href="<?php echo SITE_URL; ?>/dashboard/orders.php" class="block px-3 py-2 hover:bg-gray-50">Orders</a>
+                            <a href="<?php echo SITE_URL; ?>/dashboard/wishlist.php" class="block px-3 py-2 hover:bg-gray-50">Wishlist</a>
+                            <a href="<?php echo SITE_URL; ?>/logout.php" class="block px-3 py-2 hover:bg-gray-50">Logout</a>
+                        <?php else: ?>
+                            <a href="<?php echo SITE_URL; ?>/login.php" class="block px-3 py-2 hover:bg-gray-50">Login</a>
+                            <a href="<?php echo SITE_URL; ?>/register.php" class="block px-3 py-2 hover:bg-gray-50">Register</a>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="pt-2 border-t">
+                        <a href="<?php echo SITE_URL; ?>/cart.php" class="flex items-center px-3 py-2 hover:bg-gray-50">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            Cart
+                            <?php $cart_count_mobile = get_cart_count(); if ($cart_count_mobile > 0): ?>
+                                <span class="ml-auto bg-amber-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"><?php echo $cart_count_mobile; ?></span>
+                            <?php endif; ?>
+                        </a>
+                    </div>
+
+                    <div class="pt-2 border-t">
+                        <span class="text-xs text-amber-600">Free Shipping on orders above ₹<?php echo get_setting('free_shipping_amount'); ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
     
     <!-- Breadcrumbs -->

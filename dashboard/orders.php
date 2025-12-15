@@ -35,7 +35,7 @@ require_once __DIR__ . '/../includes/header.php';
     <!-- Orders Table -->
     <div class="bg-white rounded-xl shadow-md overflow-hidden">
         <?php if ($orders): ?>
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto table-responsive">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>

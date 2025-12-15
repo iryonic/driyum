@@ -77,6 +77,10 @@ $admin_today_orders = db_fetch_single(
     <meta name="csrf-token" content="<?php echo generate_csrf_token(); ?>">
     
     <style>
+        .adnav{
+            scrollbar-width: thin;
+            scrollbar-color: #f59e0b #1f2937;
+        }
         .sidebar-link:hover .sidebar-icon {
             transform: scale(1.1);
         }
@@ -173,7 +177,7 @@ $admin_today_orders = db_fetch_single(
             </div>
             
             <!-- Navigation -->
-            <nav class="flex-1 overflow-y-auto p-4">
+            <nav class="flex-1 overflow-y-auto p-4 adnav">
                 <ul class="space-y-2">
                     <li>
                         <a href="<?php echo ADMIN_URL; ?>/dashboard.php" 

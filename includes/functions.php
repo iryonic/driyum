@@ -759,8 +759,9 @@ function upload_image($file, $type = 'product') {
     
     // Move uploaded file
     if (move_uploaded_file($file['tmp_name'], $target_path)) {
-        // Return relative path for database
-        $relative_path = '/uploads/' . ($type === 'product' ? 'products/' : 'banners/') . $filename;
+        // Return web-root relative path for database (e.g., '/driyum/uploads/products/..')
+        $web_root = rtrim(parse_url(SITE_URL, PHP_URL_PATH) ?: '', '/');
+        $relative_path = $web_root . '/uploads/' . ($type === 'product' ? 'products/' : 'banners/') . $filename;
         return ['success' => true, 'path' => $relative_path];
     }
     
@@ -769,11 +770,44 @@ function upload_image($file, $type = 'product') {
 
 // Delete image file
 function delete_image_file($path) {
+    // If a full URL was stored, extract the path component
+    if (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
+        $path = parse_url($path, PHP_URL_PATH);
+    }
+
+    // Build full filesystem path and delete
     $full_path = $_SERVER['DOCUMENT_ROOT'] . $path;
     if (file_exists($full_path) && is_file($full_path)) {
         return unlink($full_path);
     }
     return false;
+}
+
+// Normalize image path for public use
+function get_image_src($path) {
+    // Return placeholder for empty
+    if (empty($path)) {
+        return SITE_URL . '/assets/images/placeholder.jpg';
+    }
+
+    // If it's already a full URL, return as-is
+    if (strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0) {
+        return $path;
+    }
+
+    // If a legacy path like '/uploads/...', prepend site path (e.g., '/driyum')
+    $site_path = parse_url(SITE_URL, PHP_URL_PATH) ?: '';
+    if (strpos($path, '/uploads/') === 0 && $site_path) {
+        return $site_path . $path;
+    }
+
+    // If already an absolute path (starts with '/'), return it
+    if ($path[0] === '/') {
+        return $path;
+    }
+
+    // Otherwise return as-is (relative path)
+    return $path;
 }
 
 // Get pagination links
