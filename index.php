@@ -12,7 +12,7 @@ $categories = get_categories();
 <section class="mb-16">
     <div class="relative bg-gradient-to-r from-amber-700 to-amber-900 rounded-2xl overflow-hidden">
         <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" 
+            <img src="./assets/images/hero.jpg" 
                  alt="Snacks Banner" class="w-full h-full object-cover opacity-30">
         </div>
         <div class="relative px-8 py-24 md:py-32 text-center">

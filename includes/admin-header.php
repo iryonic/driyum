@@ -67,6 +67,14 @@ $admin_today_orders = db_fetch_single(
     <!-- Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --primary-600: #16a34a; --primary-700: #047857; --beige-100: #f5efe6; --beige-300: #d6c7ae; }
+        body { font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+    </style>
+
     <!-- Admin CSS -->
     <link rel="stylesheet" href="<?php echo ADMIN_URL; ?>/assets/css/admin.css">
     
@@ -79,15 +87,15 @@ $admin_today_orders = db_fetch_single(
     <style>
         .adnav{
             scrollbar-width: thin;
-            scrollbar-color: #f59e0b #1f2937;
+            scrollbar-color: #16a34a #1f2937;
         }
         .sidebar-link:hover .sidebar-icon {
             transform: scale(1.1);
         }
         
         .sidebar-link.active {
-            background-color: rgba(245, 158, 11, 0.1);
-            border-left-color: #f59e0b;
+            background-color: rgba(16, 163, 127, 0.08);
+            border-left-color: #16a34a;
         }
         
         .notification-dot {
@@ -101,7 +109,7 @@ $admin_today_orders = db_fetch_single(
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-stone-50">
     <!-- Flash Messages -->
     <?php if (isset($_SESSION['success'])): ?>
         <div class="fixed top-4 right-4 z-50">
@@ -152,7 +160,7 @@ $admin_today_orders = db_fetch_single(
             <!-- User Info -->
             <div class="p-4 border-b border-gray-800">
                 <div class="flex items-center">
-                    <div class="h-10 w-10 rounded-full bg-amber-600 flex items-center justify-center mr-3">
+                    <div class="h-10 w-10 rounded-full bg-emerald-600 flex items-center justify-center mr-3">
                         <span class="font-bold"><?php echo strtoupper(substr($_SESSION['user_name'], 0, 1)); ?></span>
                     </div>
                     <div>
@@ -166,7 +174,7 @@ $admin_today_orders = db_fetch_single(
             <div class="p-4 border-b border-gray-800">
                 <div class="grid grid-cols-2 gap-2">
                     <div class="bg-gray-800 rounded-lg p-3 text-center">
-                        <div class="text-amber-400 text-lg font-bold"><?php echo $admin_pending_orders; ?></div>
+                        <div class="text-emerald-400 text-lg font-bold"><?php echo $admin_pending_orders; ?></div>
                         <div class="text-gray-400 text-xs">Pending</div>
                     </div>
                     <div class="bg-gray-800 rounded-lg p-3 text-center">
@@ -181,7 +189,7 @@ $admin_today_orders = db_fetch_single(
                 <ul class="space-y-2">
                     <li>
                         <a href="<?php echo ADMIN_URL; ?>/dashboard.php" 
-                           class="sidebar-link flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition <?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active border-l-4 border-amber-500' : ''; ?>">
+                           class="sidebar-link flex items-center px-4 py-3 rounded-lg hover:bg-gray-800 transition <?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active border-l-4 border-emerald-500' : ''; ?>">
                             <i class="fas fa-tachometer-alt sidebar-icon text-gray-400 mr-3 transition-transform"></i>
                             <span>Dashboard</span>
                         </a>
@@ -195,7 +203,7 @@ $admin_today_orders = db_fetch_single(
                         <ul class="ml-4 space-y-1">
                             <li>
                                 <a href="<?php echo ADMIN_URL; ?>/products.php" 
-                                   class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-800 transition <?php echo in_array(basename($_SERVER['PHP_SELF']), ['products.php', 'add-product.php', 'edit-product.php']) ? 'active border-l-4 border-amber-500' : ''; ?>">
+                                   class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-800 transition <?php echo in_array(basename($_SERVER['PHP_SELF']), ['products.php', 'add-product.php', 'edit-product.php']) ? 'active border-l-4 border-emerald-500' : ''; ?>">
                                     <i class="fas fa-box-open text-gray-400 mr-3 text-sm"></i>
                                     <span>All Products</span>
                                 </a>
@@ -225,11 +233,11 @@ $admin_today_orders = db_fetch_single(
                         <ul class="ml-4 space-y-1">
                             <li>
                                 <a href="<?php echo ADMIN_URL; ?>/orders.php" 
-                                   class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-800 transition <?php echo in_array(basename($_SERVER['PHP_SELF']), ['orders.php', 'order-view.php']) ? 'active border-l-4 border-amber-500' : ''; ?>">
+                                   class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-800 transition <?php echo in_array(basename($_SERVER['PHP_SELF']), ['orders.php', 'order-view.php']) ? 'active border-l-4 border-emerald-500' : ''; ?>">
                                     <i class="fas fa-list text-gray-400 mr-3 text-sm"></i>
                                     <span>All Orders</span>
                                     <?php if (($stats['pending_orders'] ?? 0) > 0): ?>
-                                        <span class="ml-auto bg-amber-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                        <span class="ml-auto bg-emerald-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                                             <?php echo $stats['pending_orders']; ?>
                                         </span>
                                     <?php endif; ?>
@@ -342,7 +350,7 @@ $admin_today_orders = db_fetch_single(
                             <nav class="flex" aria-label="Breadcrumb">
                                 <ol class="flex items-center space-x-2 text-sm">
                                     <li>
-                                        <a href="<?php echo ADMIN_URL; ?>/dashboard.php" class="text-gray-500 hover:text-amber-600">
+                                        <a href="<?php echo ADMIN_URL; ?>/dashboard.php" class="text-gray-500 hover:text-emerald-600">
                                             <i class="fas fa-home"></i>
                                         </a>
                                     </li>
@@ -354,7 +362,7 @@ $admin_today_orders = db_fetch_single(
                                                     <?php echo $crumb['title']; ?>
                                                 </a>
                                             <?php else: ?>
-                                                <span class="text-amber-600 font-medium"><?php echo $crumb['title']; ?></span>
+                                                <span class="text-emerald-600 font-medium"><?php echo $crumb['title']; ?></span>
                                             <?php endif; ?>
                                         </li>
                                     <?php endforeach; ?>
@@ -371,7 +379,7 @@ $admin_today_orders = db_fetch_single(
                                 <i class="fas fa-search text-gray-400"></i>
                             </div>
                             <input type="text" 
-                                   class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent w-64" 
+                                   class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent w-64" 
                                    placeholder="Search...">
                         </div>
                         
