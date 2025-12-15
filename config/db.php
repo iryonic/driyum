@@ -34,29 +34,36 @@ function close_db_connection() {
 // Execute query with prepared statements
 function db_query($sql, $params = [], $types = '') {
     $connection = get_db_connection();
-    $stmt = mysqli_prepare($connection, $sql);
-    
-    if (!$stmt) {
+
+    try {
+        $stmt = mysqli_prepare($connection, $sql);
+
+        if (!$stmt) {
+            return false;
+        }
+
+        if (!empty($params)) {
+            mysqli_stmt_bind_param($stmt, $types, ...$params);
+        }
+
+        mysqli_stmt_execute($stmt);
+
+        // Attempt to get a result set (works for SELECT and SHOW queries)
+        $result = mysqli_stmt_get_result($stmt);
+        if ($result !== false && $result instanceof mysqli_result) {
+            mysqli_stmt_close($stmt);
+            return $result;
+        }
+
+        // Otherwise return number of affected rows for write queries
+        $affected_rows = mysqli_stmt_affected_rows($stmt);
+        mysqli_stmt_close($stmt);
+        return $affected_rows;
+    } catch (mysqli_sql_exception $e) {
+        // Log the error for debugging but don't expose sensitive info to users
+        error_log("DB Query Error: " . $e->getMessage() . " -- SQL: " . $sql);
         return false;
     }
-    
-    if (!empty($params)) {
-        mysqli_stmt_bind_param($stmt, $types, ...$params);
-    }
-    
-    mysqli_stmt_execute($stmt);
-
-    // Attempt to get a result set (works for SELECT and SHOW queries)
-    $result = mysqli_stmt_get_result($stmt);
-    if ($result !== false && $result instanceof mysqli_result) {
-        mysqli_stmt_close($stmt);
-        return $result;
-    }
-
-    // Otherwise return number of affected rows for write queries
-    $affected_rows = mysqli_stmt_affected_rows($stmt);
-    mysqli_stmt_close($stmt);
-    return $affected_rows;
 }
 
 // Fetch single row

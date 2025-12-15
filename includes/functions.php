@@ -23,6 +23,47 @@ function format_price($price) {
     return '₹' . number_format($price, 2);
 }
 
+// Human readable time ago
+if (!function_exists('time_ago')) {
+    function time_ago($datetime) {
+        if (empty($datetime)) {
+            return '';
+        }
+
+        try {
+            $time = new DateTime($datetime);
+        } catch (Exception $e) {
+            return '';
+        }
+
+        $now = new DateTime();
+        $diff = $now->getTimestamp() - $time->getTimestamp();
+
+        if ($diff < 5) {
+            return 'just now';
+        }
+
+        $units = [
+            31536000 => 'year',
+            2592000 => 'month',
+            604800 => 'week',
+            86400 => 'day',
+            3600 => 'hour',
+            60 => 'minute',
+            1 => 'second'
+        ];
+
+        foreach ($units as $secs => $name) {
+            if ($diff >= $secs) {
+                $value = floor($diff / $secs);
+                return $value . ' ' . $name . ($value > 1 ? 's' : '') . ' ago';
+            }
+        }
+
+        return 'just now';
+    }
+}
+
 // Calculate discount percentage
 function calculate_discount_percentage($price, $compare_price) {
     if ($compare_price > $price) {

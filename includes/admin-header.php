@@ -31,19 +31,19 @@ try {
 }
 
 // Get pending orders count
-$pending_orders = db_fetch_single(
+$admin_pending_orders = db_fetch_single(
     "SELECT COUNT(*) as count FROM orders WHERE order_status = 'pending'"
 )['count'] ?? 0;
 
 // Get low stock count
-$low_stock = db_fetch_single(
+$admin_low_stock = db_fetch_single(
     "SELECT COUNT(*) as count FROM products 
      WHERE stock_quantity <= low_stock_threshold 
      AND status = 'active'"
 )['count'] ?? 0;
 
 // Get today's orders
-$today_orders = db_fetch_single(
+$admin_today_orders = db_fetch_single(
     "SELECT COUNT(*) as count FROM orders WHERE DATE(created_at) = CURDATE()"
 )['count'] ?? 0;
 ?>
@@ -162,11 +162,11 @@ $today_orders = db_fetch_single(
             <div class="p-4 border-b border-gray-800">
                 <div class="grid grid-cols-2 gap-2">
                     <div class="bg-gray-800 rounded-lg p-3 text-center">
-                        <div class="text-amber-400 text-lg font-bold"><?php echo $pending_orders; ?></div>
+                        <div class="text-amber-400 text-lg font-bold"><?php echo $admin_pending_orders; ?></div>
                         <div class="text-gray-400 text-xs">Pending</div>
                     </div>
                     <div class="bg-gray-800 rounded-lg p-3 text-center">
-                        <div class="text-red-400 text-lg font-bold"><?php echo $low_stock; ?></div>
+                        <div class="text-red-400 text-lg font-bold"><?php echo $admin_low_stock; ?></div>
                         <div class="text-gray-400 text-xs">Low Stock</div>
                     </div>
                 </div>
@@ -224,9 +224,9 @@ $today_orders = db_fetch_single(
                                    class="flex items-center px-4 py-2 rounded-lg hover:bg-gray-800 transition <?php echo in_array(basename($_SERVER['PHP_SELF']), ['orders.php', 'order-view.php']) ? 'active border-l-4 border-amber-500' : ''; ?>">
                                     <i class="fas fa-list text-gray-400 mr-3 text-sm"></i>
                                     <span>All Orders</span>
-                                    <?php if ($pending_orders > 0): ?>
+                                    <?php if (($stats['pending_orders'] ?? 0) > 0): ?>
                                         <span class="ml-auto bg-amber-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                                            <?php echo $pending_orders; ?>
+                                            <?php echo $stats['pending_orders']; ?>
                                         </span>
                                     <?php endif; ?>
                                 </a>
@@ -483,7 +483,7 @@ $today_orders = db_fetch_single(
                             </div>
                             <div>
                                 <p class="text-xs text-gray-500">Today's Orders</p>
-                                <p class="font-medium"><?php echo $today_orders; ?></p>
+                                <p class="font-medium"><?php echo $admin_today_orders; ?></p>
                             </div>
                         </div>
                         
